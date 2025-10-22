@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BotReverseLIVE - Professional Trading Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* === COLOR SYSTEM === */
+            /* Background Colors */
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #141822;
+            --bg-tertiary: #1e2332;
+            --bg-quaternary: #252b3d;
+            --bg-overlay: rgba(10, 14, 26, 0.95);
+            --bg-glass: rgba(30, 35, 50, 0.8);
+            
+            /* Accent Colors */
+            --accent-primary: #3b82f6;
+            --accent-primary-hover: #2563eb;
+            --accent-primary-active: #1d4ed8;
+            --accent-success: #10b981;
+            --accent-success-hover: #059669;
+            --accent-success-active: #047857;
+            --accent-warning: #f59e0b;
+            --accent-warning-hover: #d97706;
+            --accent-warning-active: #b45309;
+            --accent-danger: #ef4444;
+            --accent-danger-hover: #dc2626;
+            --accent-danger-active: #b91c1c;
+            --accent-info: #06b6d4;
+            --accent-info-hover: #0891b2;
+            
+            /* Text Colors */
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --text-tertiary: #6b7280;
+            --text-disabled: #4b5563;
+            --text-inverse: #1f2937;
+            
+            /* Border Colors */
+            --border-primary: #2d3748;
+            --border-secondary: #374151;
+            --border-tertiary: #4b5563;
+            --border-focus: var(--accent-primary);
+            --border-success: var(--accent-success);
+            --border-danger: var(--accent-danger);
+            
+            /* === SPACING SYSTEM === */
+            --space-xs: 0.25rem;   /* 4px */
+            --space-sm: 0.5rem;    /* 8px */
+            --space-md: 0.75rem;   /* 12px */
+            --space-lg: 1rem;      /* 16px */
+            --space-xl: 1.25rem;   /* 20px */
+            --space-2xl: 1.5rem;   /* 24px */
+            --space-3xl: 2rem;     /* 32px */
+            --space-4xl: 2.5rem;   /* 40px */
+            --space-5xl: 3rem;     /* 48px */
+            
+            /* === TYPOGRAPHY SYSTEM === */
+            --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-family-mono: 'JetBrains Mono', 'Fira Code', Monaco, monospace;
+            
+            /* Font Sizes */
+            --text-xs: 0.75rem;    /* 12px */
+            --text-sm: 0.875rem;   /* 14px */
+            --text-base: 1rem;     /* 16px */
+            --text-lg: 1.125rem;   /* 18px */
+            --text-xl: 1.25rem;    /* 20px */
+            --text-2xl: 1.5rem;    /* 24px */
+            --text-3xl: 1.875rem;  /* 30px */
+            
+            /* Font Weights */
+            --font-weight-light: 300;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            
+            /* Line Heights */
+            --line-height-tight: 1.25;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.625;
+            --line-height-loose: 2;
+            
+            /* === LAYOUT SYSTEM === */
+            --border-radius-sm: 0.25rem;
+            --border-radius-md: 0.375rem;
+            --border-radius-lg: 0.5rem;
+            --border-radius-xl: 0.75rem;
+            --border-radius-2xl: 1rem;
+            --border-radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+            --shadow-glow-success: 0 0 20px rgba(16, 185, 129, 0.3);
+            --shadow-glow-danger: 0 0 20px rgba(239, 68, 68, 0.3);
+            
+            /* === ANIMATION SYSTEM === */
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            /* Easing Functions */
+            --ease-linear: cubic-bezier(0, 0, 1, 1);
+            --ease-in: cubic-bezier(0.4, 0, 1, 1);
+            --ease-out: cubic-bezier(0, 0, 0.2, 1);
+            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* === Z-INDEX SYSTEM === */
+            --z-dropdown: 1000;
+            --z-sticky: 1010;
+            --z-fixed: 1020;
+            --z-modal-backdrop: 1030;
+            --z-modal: 1040;
+            --z-popover: 1050;
+            --z-tooltip: 1060;
+            --z-toast: 1070;
+            
+            /* === BREAKPOINTS === */
+            --breakpoint-sm: 640px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 1024px;
+            --breakpoint-xl: 1280px;
+            --breakpoint-2xl: 1536px;
+            
+            /* === COMPONENT SIZES === */
+            --component-height-sm: 2rem;
+            --component-height-md: 2.5rem;
+            --component-height-lg: 3rem;
+            --component-height-xl: 3.5rem;
+            
+            /* Box Dimensions */
+            --box-width: 300px;
+            --box-width-mobile: 280px;
+            --box-min-height: 250px;
+            --box-padding: var(--space-lg);
+            
+            /* === PERFORMANCE OPTIMIZATIONS === */
+            --gpu-acceleration: translateZ(0);
+        }
+
+        /* === PERFORMANCE OPTIMIZATIONS === */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            font-family: var(--font-family-primary);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: var(--line-height-normal);
+            font-size: var(--text-base);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            
+            /* Performance optimizations */
+            will-change: scroll-position;
+            contain: layout style;
+        }
+
+        .dashboard-header {
+            background: var(--bg-secondary);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: var(--space-lg) var(--space-3xl);
+            border-bottom: 2px solid var(--border-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            
+            /* Performance optimizations */
+            contain: layout style;
+            transform: var(--gpu-acceleration);
+            transition: box-shadow var(--transition-normal);
+        }
+        
+        .dashboard-header:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .logo {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            
+            /* Enhanced typography */
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+        }
+
+        .header-controls {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-success { background: var(--accent-success); color: white; }
+        .status-warning { background: var(--accent-warning); color: white; }
+
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sidebar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sidebar-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .box-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .box-header {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .box-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .box-icon {
+            font-size: 1.25rem;
+        }
+
+        .box-content {
+            padding: 1rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .dropdown, .input-field, .slider {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary { background: var(--accent-primary); color: white; }
+        .btn-success { background: var(--accent-success); color: white; }
+        .btn-danger { background: var(--accent-danger); color: white; }
+        .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .toggle-switch.active {
+            background: var(--accent-success);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 22px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            width: 16px;
+            height: 16px;
+        }
+
+        .status-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.375rem;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-success);
+        }
+
+        .status-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .opportunities-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .opportunities-table th {
+            background: var(--bg-tertiary);
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .opportunities-table td {
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profit-positive {
+            color: var(--accent-success);
+            font-weight: 600;
+        }
+
+        .profit-negative {
+            color: var(--accent-danger);
+            font-weight: 600;
+        }
+
+        .profit-neutral {
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        /* Add more styles here - truncated for brevity */
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="dashboard-header">
+    <div class="logo">🤖 BotReverseLIVE</div>
+    <div class="header-controls">
+        <span class="status-badge status-success">🟢 Ethereum Mainnet</span>
+        <span class="status-badge status-warning">⚠️ Scan-Only Mode</span>
+        <button class="btn btn-primary">Connect Wallet</button>
+    </div>
+</header>
+
+<!-- MAIN DASHBOARD LAYOUT -->
+<div class="dashboard-layout">
+
+    <!-- LEFT SIDEBAR: BOX 1-3 -->
+    <aside class="sidebar-left">
+        
+        <!-- BOX 1: CONNECTION MANAGER -->
+        <div class="box-panel">
+            <div class="box-header">
+                <h3>Box 1: Connection Manager 👛</h3>
+                <span class="box-icon">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <label class="control-label">Network Selection</label>
+                    <select class="dropdown">
+                        <option selected>Ethereum Mainnet (Chain 1)</option>
+                        <option>Polygon Mainnet (Chain 137)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Wallet Provider</label>
+                    <div class="button-group">
+                        <button class="btn btn-primary">MetaMask</button>
+                        <button class="btn btn-secondary">WalletConnect</button>
+                    </div>
+                </div>
+
+                <div class="status-panel">
+                    <div class="status-item">
+                        <div class="status-value">$127</div>
+                        <div class="status-label">Used</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value">$873</div>
+                        <div class="status-label">Remaining</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value">12.7%</div>
+                        <div class="status-label">Usage</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOX 2: NETWORK MANAGER -->
+        <div class="box-panel">
+            <div class="box-header">
+                <h3>Box 2: Network Manager 🌐</h3>
+                <span class="box-icon">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <label class="control-label">Network Health</label>
+                    <div class="info-row">
+                        <span class="info-label">Ethereum</span>
+                        <span class="info-value">35ms | 42 Gwei</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Polygon</span>
+                        <span class="info-value">18ms | 30 Gwei</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOX 3: DEX MANAGER -->
+        <div class="box-panel">
+            <div class="box-header">
+                <h3>Box 3: DEX Manager 🔄</h3>
+                <span class="box-icon">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <label class="control-label">DEX Protocol Selection</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>Uniswap V3</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>SushiSwap</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>Curve</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT: BOX 8 OPPORTUNITIES -->
+    <main class="main-content">
+        
+        <!-- BOX 8: EXECUTION MANAGER -->
+        <div class="box-panel" style="height: 100%;">
+            <div class="box-header">
+                <h3>Box 8: Live Execution Manager 🚀</h3>
+                <div class="button-group">
+                    <button id="start-scanning-btn" class="btn btn-success">🚀 Start Scanning</button>
+                    <button id="emergency-stop-btn" class="btn btn-danger">🛑 Emergency Stop</button>
+                </div>
+            </div>
+            <div class="box-content">
+                
+                <!-- Operating Mode -->
+                <div class="control-group">
+                    <label class="control-label">Operating Mode</label>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Scan-Only Mode</button>
+                        <button class="btn btn-secondary">Scan-and-Trade Mode</button>
+                    </div>
+                </div>
+
+                <!-- Opportunities Table -->
+                <div style="margin-top: 1.5rem; overflow-x: auto;">
+                    <table class="opportunities-table">
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Date&Time</th>
+                                <th>FlashLoan</th>
+                                <th>Buy Combo</th>
+                                <th>Sell Combo</th>
+                                <th>Profit %</th>
+                                <th>Net Profit</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cascade Arbi</td>
+                                <td>10/21/25 14:32</td>
+                                <td>AAVE 5000 USDC</td>
+                                <td>Uniswap V3→USDC→ETH→WBTC→DAI</td>
+                                <td>Curve→DAI→USDC</td>
+                                <td class="profit-positive">21.70%</td>
+                                <td class="profit-positive">$1,010</td>
+                                <td><button class="btn btn-success">Execute</button></td>
+                            </tr>
+                            <tr>
+                                <td>Matrix Arbi</td>
+                                <td>10/21/25 14:33</td>
+                                <td>Balancer 10000 USDT</td>
+                                <td>Uniswap V3→USDT→ETH</td>
+                                <td>DODO→DAI→USDT</td>
+                                <td class="profit-positive">6.42%</td>
+                                <td class="profit-positive">$582</td>
+                                <td><button class="btn btn-success">Execute</button></td>
+                            </tr>
+                            <tr>
+                                <td>Binary Arbi</td>
+                                <td>10/21/25 14:33</td>
+                                <td>dYdX 2500 USDT</td>
+                                <td>Uniswap V2→USDT→ETH</td>
+                                <td>SushiSwap→ETH→USDT</td>
+                                <td class="profit-positive">15.40%</td>
+                                <td class="profit-positive">$345</td>
+                                <td><button class="btn btn-success">Execute</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Performance Stats -->
+                <div class="status-panel" style="margin-top: 1rem;">
+                    <div class="status-item">
+                        <div class="status-value">127</div>
+                        <div class="status-label">Detected</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value">20</div>
+                        <div class="status-label">Visible</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value">0</div>
+                        <div class="status-label">Executed</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- RIGHT SIDEBAR: BOX 4-7 -->
+    <aside class="sidebar-right">
+
+        <!-- BOX 4: RISK MANAGER -->
+        <div class="box-panel">
+            <div class="box-header">
+                <h3>Box 4: Risk Manager 💰</h3>
+                <span class="box-icon">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <label class="control-label">Global Volume Range</label>
+                    <input type="range" class="range-slider" min="1000" max="200000" value="50000">
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Max Slippage: 2.5%</label>
+                    <input type="range" class="range-slider" min="0.1" max="10" value="2.5" step="0.1">
+                </div>
+            </div>
+        </div>
+
+        <!-- BOX 5: TOKEN DISCOVERY -->
+        <div class="box-panel">
+            <div class="box-header">
+                <h3>Box 5: Token Discovery 🔍</h3>
+                <span class="box-icon">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <label class="control-label">Token Quality Filter</label>
+                    <select class="dropdown">
+                        <option value="medium-high" selected>Medium-High (A-B)</option>
+                        <option value="high">High (A)</option>
+                        <option value="very-high">Very High (A+)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOX 6: STRATEGY ENGINE -->
+        <div class="box-panel">
+            <div class="box-header">
+                <h3>Box 6: Strategy Engine ⚙️</h3>
+                <span class="box-icon">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>Binary Strategy</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>Cascade Strategy</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>Matrix Strategy</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOX 7: FLASHLOAN MANAGER -->
+        <div class="box-panel">
+            <div class="box-header">
+                <h3>Box 7: Flashloan Manager ⚡</h3>
+                <span class="box-icon">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <label class="control-label">Provider Selection</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>AAVE</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>dYdX</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>Balancer</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+</div>
+
+<script>
+// KINGUI JavaScript Implementation
+class KingUIManager {
+    constructor() {
+        this.scanningState = {
+            isScanning: false,
+            mode: 'scan-only',
+            startTime: null,
+            lastUpdate: null
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+        this.updateUI();
+    }
+    
+    bindEvents() {
+        // Start Scanning Button
+        const startBtn = document.getElementById('start-scanning-btn');
+        if (startBtn) {
+            startBtn.addEventListener('click', () => this.startScanning());
+        }
+        
+        // Emergency Stop Button
+        const stopBtn = document.getElementById('emergency-stop-btn');
+        if (stopBtn) {
+            stopBtn.addEventListener('click', () => this.stopScanning());
+        }
+        
+        // Toggle switches
+        document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            toggle.addEventListener('click', (e) => this.toggleSwitch(e.target));
+        });
+    }
+    
+    startScanning() {
+        this.scanningState.isScanning = true;
+        this.scanningState.startTime = new Date();
+        this.updateUI();
+        console.log('🚀 Scanning started');
+    }
+    
+    stopScanning() {
+        this.scanningState.isScanning = false;
+        this.scanningState.startTime = null;
+        this.updateUI();
+        console.log('🛑 Scanning stopped');
+    }
+    
+    toggleSwitch(element) {
+        element.classList.toggle('active');
+    }
+    
+    updateUI() {
+        const startBtn = document.getElementById('start-scanning-btn');
+        const stopBtn = document.getElementById('emergency-stop-btn');
+        
+        if (startBtn && stopBtn) {
+            if (this.scanningState.isScanning) {
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'inline-block';
+            } else {
+                startBtn.style.display = 'inline-block';
+                stopBtn.style.display = 'none';
+            }
+        }
+    }
+}
+
+// Initialize KINGUI on page load
+document.addEventListener('DOMContentLoaded', () => {
+    window.kingui = new KingUIManager();
+});
+</script>
+
+</body>
+</html>
